@@ -1,3 +1,4 @@
+/*#region
 // #include <stdio.h>
 
 // typedef struct{
@@ -24,6 +25,7 @@
 
 //     return 0;
 // }
+#endregion*/
 
 #include <stdio.h>
 #include <stdlib.h>
