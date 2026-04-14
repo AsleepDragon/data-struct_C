@@ -77,28 +77,6 @@ int len_list(node* L){
     return count;
 }
 
-int del_node(node* L,int flag){
-    if (L == NULL)
-    {
-        printf("Nonexistent list!\n");
-        return 0;
-    }
-
-    int i = 1;
-    node* p = L;
-    while(i < flag && p->next != NULL){
-        p = p->next;
-        i++;
-    }
-    if(p->next == NULL){
-        return 0;
-    }
-    node* q = p->next;
-    p->next = q->next;
-    free(q);
-    return 1;
-}
-
 int Func_main(node* L){
     if(L == NULL){
         printf("Nonexistent list!\n");
@@ -111,28 +89,24 @@ int Func_main(node* L){
         printf("Faild to malloc!\n");
         return 0;
     }
-    // 初始化标记数组为0 【修复点1】
+
     memset(arr, 0, (ret+1)*sizeof(int));
 
-    int flag = 1;
-    node* p = L->next;
-    while(p != NULL){
-        if (*(arr + abs(p->data)) == 0){
-            *(arr + abs(p->data)) = 1;
+    node* p = L;
+    while(p->next != NULL){
+        if (*(arr + abs(p->next->data)) == 0){
+            *(arr + abs(p->next->data)) = 1;
+
+            //Don`t forget move the pointer
             p = p->next;
-            flag++;
         }
         else{
-            // 删除后指针不前进 【修复点2】
-            del_node(L,flag);
-            p = L->next;
-            // 重置遍历指针 【修复点3】
-            for(int i=1; i<flag; i++){
-                if(p != NULL) p = p->next;
-            }
+
+            node* tmp = p->next;
+            p->next = tmp->next;
+            free(tmp);
         }
     }
-    // 释放标记数组 【修复点4】
     free(arr);
     return 1;
 }
